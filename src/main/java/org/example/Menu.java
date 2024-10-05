@@ -31,10 +31,10 @@ public class Menu {
                     dbOps.createTable(tableName); // Вызов метода для создания таблицы
                     break;
                 case 3:
-                    arrayPI.inputArray(); // Ввод массива
                     System.out.println("Введите имя таблицы для сохранения массива:");
                     String saveTableName = scanner.next();
                     dbOps.checkTableExists(saveTableName); // Проверяем, существует ли таблица
+                    arrayPI.inputArray(); // Ввод массива
                     dbOps.saveArrayToDatabase(arrayPI.getArray(), saveTableName); // Сохраняем массив в БД
                     dbOps.printAllRecords(saveTableName); // Выводим записи из таблицы
                     break;
