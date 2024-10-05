@@ -71,7 +71,7 @@ public class DatabaseOperations {
 
     // Метод для получения всех записей из таблицы
     public void printAllRecords(String tableName) {
-        String sql = "SELECT * FROM " + tableName;
+        String sql = "SELECT * FROM " + tableName + " ORDER BY id ASC";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             System.out.println("Записи из таблицы '" + tableName + "':");
