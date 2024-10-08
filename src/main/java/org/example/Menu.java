@@ -76,6 +76,7 @@ public class Menu {
 
                     ExcelExporter excelExporter = new ExcelExporter(); // Создаем объект ExcelExporter
                     excelExporter.exportToExcel(exportTableName); // Вызываем метод для экспорта данных в Excel
+                    dbOps.printAllRecords(exportTableName); // Выводим записи из таблицы
                     break;
 
                 case 6:
