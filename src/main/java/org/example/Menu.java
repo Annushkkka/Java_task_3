@@ -63,12 +63,19 @@ public class Menu {
                     dbOps.printAllRecords(sortTableName); // Выводим записи из таблицы
                     break;
                 case 5:
-                    System.out.println("Введите название таблицы для экспорта:");
-                    String exportTableName = scanner.next(); // Считываем название таблицы
-                    dbOps.checkTableExists(exportTableName); // Проверяем, существует ли таблица
+                    String exportTableName;
+                    do {
+                        System.out.println("Введите название таблицы для экспорта:");
+                        exportTableName = scanner.next(); // Считываем название таблицы
+                        if (!dbOps.checkTableExists(exportTableName)) {
+                            System.out.println("Ошибка: таблица не существует. Пожалуйста, попробуйте снова.");
+                        }
+                    } while (!dbOps.checkTableExists(exportTableName)); // Повторяем, пока таблица не будет найдена
+
                     ExcelExporter excelExporter = new ExcelExporter(); // Создаем объект ExcelExporter
                     excelExporter.exportToExcel(exportTableName); // Вызываем метод для экспорта данных в Excel
                     break;
+
                 case 6:
                     System.out.println("Выход из программы...");
                     break;

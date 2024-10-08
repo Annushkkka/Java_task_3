@@ -42,10 +42,13 @@ public class ExcelExporter {
                 row.createCell(3).setCellValue(resultSet.getString("array_desc"));
             }
 
+            // Имя файла будет соответствовать названию таблицы
+            String fileName = tableName + ".xlsx";
+
             // Сохраняем книгу в файл
-            try (FileOutputStream fileOut = new FileOutputStream("data.xlsx")) {
+            try (FileOutputStream fileOut = new FileOutputStream(fileName)) {
                 workbook.write(fileOut);
-                System.out.println("Данные успешно экспортированы в Excel файл data.xlsx");
+                System.out.println("Данные успешно экспортированы в Excel файл " + fileName);
             } catch (IOException e) {
                 System.out.println("Ошибка при сохранении Excel файла: " + e.getMessage());
             }
