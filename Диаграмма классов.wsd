@@ -1,0 +1,45 @@
+@startuml
+
+class ArrayPI {
+  +inputArray(): void
+  +getArray(): int[]
+}
+
+class Sort {
+  +bubbleSortAscending(int[] array): int[]
+  +bubbleSortDescending(int[] array): int[]
+}
+
+class DatabaseConnection {
+  +getConnection(): Connection
+}
+
+class DatabaseOperations {
+  +printAllTables(): void
+  +createTable(String tableName): void
+  +saveArrayToDatabase(int[] array, String tableName): void
+  +printAllRecords(String tableName): void
+  +sortAndUpdateArray(int id, String tableName): void
+}
+
+class ExcelExporter {
+  +exportToExcel(String tableName): void
+}
+
+class Menu {
+  +displayMenu(): void
+}
+
+class Main {
+  +main(String[] args): void
+}
+
+Main --> Menu
+Menu --> ArrayPI
+Menu --> DatabaseOperations
+Menu --> ExcelExporter
+DatabaseOperations --> DatabaseConnection
+DatabaseOperations --> Sort
+ExcelExporter --> DatabaseConnection
+
+@enduml
