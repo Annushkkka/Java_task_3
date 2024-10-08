@@ -88,11 +88,21 @@ public class DatabaseOperations {
 
     // Метод для сортировки массива и обновления в базе данных
     public void sortAndUpdateArray(int id, String tableName) {
-        String sqlSelect = "SELECT original_array FROM " + tableName + " WHERE id = " + id;
+        String sqlSelect = "SELECT original_array, array_asc, array_desc FROM " + tableName + " WHERE id = " + id;
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sqlSelect)) {
 
             if (rs.next()) {
+                // Проверка, отсортирован ли уже массив
+                String arrayAsc = rs.getString("array_asc");
+                String arrayDesc = rs.getString("array_desc");
+
+                if (arrayAsc != null && !arrayAsc.isEmpty() && arrayDesc != null && !arrayDesc.isEmpty()) {
+                    System.out.println("Этот массив уже отсортирован.");
+                    return; // Завершаем действие, если массив уже отсортирован
+                }
+
+                // Получение и преобразование оригинального массива
                 String[] stringArray = rs.getString("original_array").split(",");
                 int[] intArray = new int[stringArray.length];
                 for (int i = 0; i < stringArray.length; i++) {
@@ -119,6 +129,7 @@ public class DatabaseOperations {
     }
 
 
+
     // Вспомогательный метод для преобразования массива в строку
     public String arrayToString(int[] array) {
         StringBuilder sb = new StringBuilder();
@@ -132,21 +143,20 @@ public class DatabaseOperations {
     }
 
     // Метод для проверки существования таблицы в базе данных
-    public void checkTableExists(String tableName) {
+    public boolean checkTableExists(String tableName) {
         String sql = "SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = ? AND table_schema = 'public')";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, tableName);
+            pstmt.setString(1, tableName); // Устанавливаем параметр
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                boolean exists = rs.getBoolean(1);
-                if (!exists) {
-                    System.out.println("Таблицы с таким именем не существует.");
-                }
+                return rs.getBoolean(1); // Возвращаем true, если таблица существует
             }
         } catch (SQLException e) {
             System.out.println("Ошибка при проверке существования таблицы: " + e.getMessage());
         }
+        return false; // Возвращаем false, если произошла ошибка или таблица не найдена
     }
+
 
     // Метод для проверки корректности имени таблицы
     public boolean isValidTableName(String tableName) {
@@ -156,9 +166,9 @@ public class DatabaseOperations {
             return false;
         }
 
-        // Проверка на соответствие формату
-        if (!tableName.matches("^[a-zA-Z_][a-zA-Z0-9_]*$")) {
-            System.out.println("Имя таблицы должно начинаться с буквы и содержать только буквы, цифры и символы подчеркивания.");
+        // Проверка на соответствие формату (латиница и кириллица)
+        if (!tableName.matches("^[a-zA-Zа-яА-ЯёЁ_][a-zA-Zа-яА-ЯёЁ0-9_]*$")) {
+            System.out.println("Имя таблицы должно начинаться с буквы (латиницы или кириллицы) и содержать только буквы, цифры и символы подчеркивания.");
             return false;
         }
 

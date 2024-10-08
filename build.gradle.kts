@@ -25,6 +25,10 @@ dependencies {
 
     // Commons Logging (логгирование)
     implementation("commons-logging:commons-logging:1.2")
+
+    // Log4j2 для логирования
+    implementation("org.apache.logging.log4j:log4j-api:2.20.0")
+    implementation("org.apache.logging.log4j:log4j-core:2.20.0")
 }
 
 tasks.test {
@@ -38,4 +42,3 @@ tasks.withType<JavaCompile> {
 tasks.withType<JavaExec> {
     systemProperty("file.encoding", "UTF-8")
 }
-

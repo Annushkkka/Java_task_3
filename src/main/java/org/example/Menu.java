@@ -25,23 +25,38 @@ public class Menu {
                     dbOps.printAllTables(); // Вызов метода для вывода таблиц
                     break;
                 case 2:
-                    System.out.println("Введите имя таблицы для создания:");
-                    String tableName = scanner.next(); // Считываем имя таблицы
-                    dbOps.isValidTableName(tableName);
+                    String tableName;
+                    do {
+                        System.out.println("Введите имя таблицы для создания:");
+                        tableName = scanner.next(); // Считываем имя таблицы
+                    } while (!dbOps.isValidTableName(tableName)); // Проверяем корректность имени таблицы
+
                     dbOps.createTable(tableName); // Вызов метода для создания таблицы
                     break;
                 case 3:
-                    System.out.println("Введите имя таблицы для сохранения массива:");
-                    String saveTableName = scanner.next();
-                    dbOps.checkTableExists(saveTableName); // Проверяем, существует ли таблица
+                    String saveTableName;
+                    do {
+                        System.out.println("Введите имя таблицы для сохранения массива:");
+                        saveTableName = scanner.next();
+                        if (!dbOps.checkTableExists(saveTableName)) {
+                            System.out.println("Ошибка: Таблица не существует. Пожалуйста, попробуйте снова.");
+                        }
+                    } while (!dbOps.checkTableExists(saveTableName)); // Проверяем, существует ли таблица
+
                     arrayPI.inputArray(); // Ввод массива
                     dbOps.saveArrayToDatabase(arrayPI.getArray(), saveTableName); // Сохраняем массив в БД
                     dbOps.printAllRecords(saveTableName); // Выводим записи из таблицы
                     break;
                 case 4:
-                    System.out.println("Введите имя таблицы для сортировки массива:");
-                    String sortTableName = scanner.next();
-                    dbOps.checkTableExists(sortTableName); // Проверяем, существует ли таблица
+                    String sortTableName;
+                    do {
+                        System.out.println("Введите имя таблицы для сортировки массива:");
+                        sortTableName = scanner.next();
+                        if (!dbOps.checkTableExists(sortTableName)) {
+                            System.out.println("Ошибка: Таблица не существует. Пожалуйста, попробуйте снова.");
+                        }
+                    } while (!dbOps.checkTableExists(sortTableName)); // Проверяем, существует ли таблица
+
                     System.out.println("Введите ID записи для сортировки:");
                     int id = scanner.nextInt(); // Считываем ID
                     dbOps.sortAndUpdateArray(id, sortTableName); // Сортируем и обновляем массив
