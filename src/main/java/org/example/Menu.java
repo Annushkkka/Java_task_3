@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
@@ -18,6 +19,7 @@ public class Menu {
             System.out.println("4. Отсортировать массив и сохранить в БД, затем вывести массив");
             System.out.println("5. Сохранить данные из БД в Excel");
             System.out.println("6. Выход из программы");
+            System.out.print("Введите число от 1 до 6: "); // Просим ввести число в этой же строке
             choice = scanner.nextInt(); // Считываем выбор пользователя
 
             switch (choice) {
@@ -80,7 +82,7 @@ public class Menu {
                     System.out.println("Выход из программы...");
                     break;
                 default:
-                    System.out.println("Неверный выбор. Попробуйте еще раз.");
+                    System.out.println("Такого действия не существует, пожалуйста, введите число от 1 до 6."); // Сообщение об ошибке
             }
         } while (choice != 6); // Зацикливаем меню до выхода
     }
